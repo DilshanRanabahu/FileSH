@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320" role="img" aria-labelledby="title desc">
+  <title id="title">FileSh</title>
+  <desc id="desc">Share files between your PC and phone over your own Wi-Fi. No app needed, local network only, QR code and PIN.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1E3A8A"/>
+      <stop offset="0.55" stop-color="#1D4ED8"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+    <clipPath id="card">
+      <rect width="1280" height="320" rx="28"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#card)">
+    <rect width="1280" height="320" fill="url(#bg)"/>
+    <circle cx="1200" cy="-10" r="190" fill="#FFFFFF" opacity="0.06"/>
+    <circle cx="40" cy="330" r="140" fill="#FFFFFF" opacity="0.05"/>
+    <circle cx="840" cy="300" r="70" fill="#FFFFFF" opacity="0.04"/>
+  </g>
+
+  <!-- Logo: the same arrow as the app icon -->
+  <rect x="72" y="80" width="160" height="160" rx="38" fill="#FFFFFF"/>
+  <g fill="none" stroke="#2563EB" stroke-width="15" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="112,168 152,128 192,168"/>
+    <line x1="152" y1="128" x2="152" y2="204"/>
+  </g>
+
+  <!-- Name, tagline, and highlights -->
+  <g font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif">
+    <text x="268" y="168" font-size="96" font-weight="700" fill="#FFFFFF" letter-spacing="-1">FileSh</text>
+    <text x="272" y="212" font-size="26" fill="#DBEAFE">PC ⇄ phone file sharing over your own Wi‑Fi</text>
+
+    <g font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle">
+      <rect x="272" y="236" width="150" height="34" rx="17" fill="#FFFFFF" fill-opacity="0.16"/>
+      <text x="347" y="259">No app needed</text>
+      <rect x="434" y="236" width="182" height="34" rx="17" fill="#FFFFFF" fill-opacity="0.16"/>
+      <text x="525" y="259">Local network only</text>
+      <rect x="628" y="236" width="160" height="34" rx="17" fill="#FFFFFF" fill-opacity="0.16"/>
+      <text x="708" y="259">QR code + PIN</text>
+    </g>
+  </g>
+
+  <!-- Phone, laptop, and Wi-Fi -->
+  <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Wi-Fi -->
+    <g stroke-width="6" opacity="0.9">
+      <path d="M1000 72 a44 44 0 0 1 62 0"/>
+      <path d="M1012 86 a26 26 0 0 1 38 0"/>
+    </g>
+    <circle cx="1031" cy="100" r="5" fill="#FFFFFF" stroke="none"/>
+
+    <!-- Phone -->
+    <rect x="900" y="118" width="84" height="146" rx="16" stroke-width="6" fill="#FFFFFF" fill-opacity="0.1"/>
+    <line x1="932" y1="134" x2="952" y2="134" stroke-width="5"/>
+    <circle cx="942" cy="246" r="5" fill="#FFFFFF" stroke="none"/>
+
+    <!-- Laptop -->
+    <rect x="1076" y="118" width="166" height="112" rx="10" stroke-width="6" fill="#FFFFFF" fill-opacity="0.1"/>
+    <path d="M1056 244 h206 l-14 18 h-178 z" stroke-width="6" fill="#FFFFFF" fill-opacity="0.9"/>
+
+    <!-- Transfer arrows -->
+    <g stroke-width="6">
+      <path d="M998 172 h60"/>
+      <path d="M1046 160 l12 12 l-12 12"/>
+      <path d="M1058 206 h-60"/>
+      <path d="M1010 194 l-12 12 l12 12"/>
+    </g>
+  </g>
+
+  <!-- Files on the laptop screen -->
+  <g fill="#FFFFFF" opacity="0.85">
+    <rect x="1096" y="138" width="38" height="30" rx="5"/>
+    <rect x="1142" y="138" width="38" height="30" rx="5"/>
+    <rect x="1188" y="138" width="38" height="30" rx="5"/>
+    <rect x="1096" y="178" width="130" height="8" rx="4" opacity="0.6"/>
+    <rect x="1096" y="194" width="96" height="8" rx="4" opacity="0.6"/>
+  </g>
+</svg>

@@ -81,7 +81,9 @@ FileSh/
 ├── docs/
 │   ├── features.md      # feature list and build order
 │   ├── design.md        # UI rules, colours, layouts
-│   └── SECURITY.md      # risks, protections, tests, checklists
+│   ├── SECURITY.md      # risks, protections, tests, checklists
+│   └── images/
+│       └── banner.svg   # README banner
 ├── scripts/
 │   └── build.ps1        # builds dist\FileSh.exe (temporary files in build\)
 ├── FileSh.pyw           # double-click launcher without a console

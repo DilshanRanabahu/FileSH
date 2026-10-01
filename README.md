@@ -1,4 +1,6 @@
-<h1 align="center">FileSh</h1>
+<p align="center">
+  <img src="docs/images/banner.svg" alt="FileSh: PC and phone file sharing over your own Wi-Fi" width="100%">
+</p>
 
 <p align="center">
   Share files, folders, and text between your Windows PC and your phone over your home Wi‑Fi.<br>
