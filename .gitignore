@@ -1,0 +1,13 @@
+# Python environment and caches
+.venv/
+__pycache__/
+*.pyc
+.cache/
+
+# Build output (scripts/build.ps1)
+build/
+dist/
+
+# Shared files and unfinished uploads
+shared/
+*.part

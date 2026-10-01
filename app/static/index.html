@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>FileSh</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+  <script type="module" src="/static/js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <h1 class="brand">FileSh</h1>
+    <div class="topbar-end">
+      <button id="status" class="status" type="button" hidden>
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="status-text"></span>
+      </button>
+      <button id="theme-btn" class="icon-btn" type="button" aria-label="Switch to dark mode">
+        <svg class="icon" aria-hidden="true"><use id="theme-icon" href="/static/icons.svg#moon"></use></svg>
+      </button>
+    </div>
+  </header>
+
+  <div id="public-warning" class="banner" role="alert" hidden>
+    <svg class="icon banner-icon" aria-hidden="true"><use href="/static/icons.svg#alert-triangle"></use></svg>
+    <p>You are on a public network. Other people may be able to see your transfers. Use FileSh only on your home network.</p>
+  </div>
+
+  <main id="app" class="layout" hidden>
+    <aside id="connect-panel" class="card connect" hidden>
+      <h2 class="heading">Connect a device</h2>
+      <div class="qr-box">
+        <img id="qr" class="qr" alt="QR code to connect a device" width="200" height="200">
+      </div>
+      <p class="small muted">Scan with your phone or open:</p>
+      <p id="address" class="address"></p>
+      <p class="pin-line">PIN <strong id="pin" class="pin"></strong></p>
+      <p id="discovery-line" class="small muted" hidden>
+        Or open <strong id="discovery-url"></strong> and enter the PIN.
+      </p>
+      <button id="stop-btn" class="btn btn-secondary btn-danger-text btn-block" type="button">Stop sharing</button>
+    </aside>
+
+    <div class="content">
+      <nav class="tabs" role="tablist" aria-label="Sections">
+        <button class="tab" type="button" role="tab" data-tab="files" aria-controls="panel-files">
+          <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#folder"></use></svg>Files
+        </button>
+        <button class="tab" type="button" role="tab" data-tab="text" aria-controls="panel-text">
+          <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#message"></use></svg>Text
+        </button>
+        <button class="tab" type="button" role="tab" data-tab="history" aria-controls="panel-history" data-pc-only hidden>
+          <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#history"></use></svg>History
+        </button>
+        <button class="tab" type="button" role="tab" data-tab="settings" aria-controls="panel-settings" data-pc-only hidden>
+          <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#settings"></use></svg>Settings
+        </button>
+      </nav>
+
+      <!-- Files -->
+      <div id="panel-files" class="panel" role="tabpanel">
+        <section class="card">
+          <button id="dropzone" class="dropzone" type="button">
+            <svg class="icon icon-lg" aria-hidden="true"><use href="/static/icons.svg#upload"></use></svg>
+            <span id="dropzone-text">Tap to choose files</span>
+            <span id="selection" class="small muted" hidden></span>
+          </button>
+          <input id="file-input" class="visually-hidden" type="file" multiple tabindex="-1" aria-hidden="true">
+          <input id="folder-input" class="visually-hidden" type="file" webkitdirectory multiple tabindex="-1" aria-hidden="true">
+          <div class="button-row">
+            <button id="folder-btn" class="btn btn-secondary" type="button" hidden>
+              <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#folder-up"></use></svg>Choose a folder
+            </button>
+            <button id="clear-selection-btn" class="btn btn-secondary" type="button" hidden>Clear</button>
+          </div>
+          <button id="send-btn" class="btn btn-primary btn-block" type="button" disabled>Send files</button>
+        </section>
+
+        <section id="uploads-section" class="card" hidden>
+          <h2 class="heading">Uploading</h2>
+          <ul id="uploads" class="uploads"></ul>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <h2 class="heading">Shared files</h2>
+            <div class="section-actions">
+              <a id="zip-btn" class="icon-btn" href="/api/download-zip" download aria-label="Download this folder as ZIP" title="Download this folder as ZIP">
+                <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#folder-down"></use></svg>
+              </a>
+              <button id="refresh-btn" class="icon-btn" type="button" aria-label="Refresh" title="Refresh">
+                <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#refresh"></use></svg>
+              </button>
+            </div>
+          </div>
+          <nav id="breadcrumb" class="breadcrumb" aria-label="Folder path"></nav>
+          <ul id="file-list" class="file-list"></ul>
+          <div id="empty" class="empty" hidden>
+            <svg class="icon icon-lg" aria-hidden="true"><use href="/static/icons.svg#folder"></use></svg>
+            <p>No files yet. Send something from your phone or PC.</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Text -->
+      <div id="panel-text" class="panel" role="tabpanel" hidden>
+        <section class="card">
+          <h2 class="heading">Share text</h2>
+          <label for="text-input" class="small muted label">Type or paste text or a link. It appears on all connected devices.</label>
+          <textarea id="text-input" class="input textarea" rows="4" maxlength="100000"></textarea>
+          <button id="text-send-btn" class="btn btn-primary btn-block" type="button">
+            <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#send"></use></svg>Send text
+          </button>
+        </section>
+        <section class="card">
+          <div class="section-head">
+            <h2 class="heading">Recent</h2>
+            <button id="text-clear-btn" class="btn btn-secondary btn-small" type="button" hidden>Clear all</button>
+          </div>
+          <ul id="text-list" class="text-list"></ul>
+          <div id="text-empty" class="empty">
+            <svg class="icon icon-lg" aria-hidden="true"><use href="/static/icons.svg#message"></use></svg>
+            <p>No text yet.</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- History (PC only) -->
+      <div id="panel-history" class="panel" role="tabpanel" hidden>
+        <section class="card">
+          <div class="section-head">
+            <h2 class="heading">Transfer history</h2>
+            <button id="history-clear-btn" class="btn btn-secondary btn-small" type="button" hidden>Clear</button>
+          </div>
+          <ul id="history-list" class="history-list"></ul>
+          <div id="history-empty" class="empty">
+            <svg class="icon icon-lg" aria-hidden="true"><use href="/static/icons.svg#history"></use></svg>
+            <p>Files sent and received will be listed here.</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Settings (PC only) -->
+      <div id="panel-settings" class="panel" role="tabpanel" hidden>
+        <div id="restart-banner" class="banner banner-inline" hidden>
+          <svg class="icon banner-icon" aria-hidden="true"><use href="/static/icons.svg#alert-triangle"></use></svg>
+          <p>Restart FileSh to apply the HTTPS change. Connected devices will need to scan the new QR code.</p>
+          <button id="restart-btn" class="btn btn-primary btn-small" type="button">Restart now</button>
+        </div>
+
+        <section class="card settings">
+          <h2 class="heading">Shared folder</h2>
+          <p class="small muted">Files sent to this PC are saved here, and devices can download everything inside it.</p>
+          <div class="field-row">
+            <input id="shared-dir-input" class="input" type="text" aria-label="Shared folder path" spellcheck="false">
+            <button id="browse-btn" class="btn btn-secondary" type="button">Browse…</button>
+          </div>
+          <div class="button-row">
+            <button id="save-dir-btn" class="btn btn-primary" type="button">Save folder</button>
+            <button id="open-folder-btn" class="btn btn-secondary" type="button">
+              <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#external"></use></svg>Open in Explorer
+            </button>
+          </div>
+        </section>
+
+        <section class="card settings">
+          <h2 class="heading">Receiving and sharing</h2>
+          <label class="switch-row">
+            <span>
+              <span class="switch-label">Ask before receiving files</span>
+              <span class="small muted">Show "Accept / Reject" on this PC when another device sends files.</span>
+            </span>
+            <input id="ask-input" class="switch" type="checkbox">
+          </label>
+          <label class="switch-row" for="auto-stop-input">
+            <span>
+              <span class="switch-label">Stop sharing automatically</span>
+              <span class="small muted">When no device has been connected for this long.</span>
+            </span>
+            <select id="auto-stop-input" class="input select"></select>
+          </label>
+          <label class="switch-row">
+            <span>
+              <span class="switch-label">Discoverable as filesh.local</span>
+              <span class="small muted">Devices can open filesh.local and enter the PIN instead of scanning. Works on iPhone, Mac, and Windows; on some Android phones, use the QR code.</span>
+            </span>
+            <input id="discoverable-input" class="switch" type="checkbox">
+          </label>
+        </section>
+
+        <section class="card settings">
+          <h2 class="heading">Security</h2>
+          <label class="switch-row">
+            <span>
+              <span class="switch-label">HTTPS encryption</span>
+              <span class="small muted">Encrypts transfers on the network. Phones show a certificate warning the first time; choose "Advanced" and continue.</span>
+            </span>
+            <input id="https-input" class="switch" type="checkbox">
+          </label>
+          <p id="fingerprint-line" class="small muted fingerprint" hidden></p>
+        </section>
+
+        <section id="windows-card" class="card settings" hidden>
+          <h2 class="heading">Windows</h2>
+          <label class="switch-row">
+            <span>
+              <span class="switch-label">Start with Windows</span>
+              <span class="small muted">Run FileSh in the tray when you sign in.</span>
+            </span>
+            <input id="startup-input" class="switch" type="checkbox">
+          </label>
+        </section>
+
+        <p id="version" class="small muted version"></p>
+      </div>
+    </div>
+  </main>
+
+  <section id="message" class="message" hidden>
+    <svg class="icon icon-xl" aria-hidden="true"><use id="message-icon" href="/static/icons.svg#lock"></use></svg>
+    <h2 id="message-title" class="title"></h2>
+    <p id="message-text" class="muted"></p>
+    <button id="message-btn" class="btn btn-primary" type="button" hidden></button>
+  </section>
+
+  <section id="pin-screen" class="message" hidden>
+    <svg class="icon icon-xl" aria-hidden="true"><use href="/static/icons.svg#lock"></use></svg>
+    <form id="pin-form" class="pin-form" novalidate>
+      <label for="pin-input" class="title">Enter the PIN shown on your PC</label>
+      <input id="pin-input" class="input pin-input" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="7" pattern="[0-9 ]*" placeholder="000 000" required>
+      <button class="btn btn-primary btn-block" type="submit">Connect</button>
+      <p id="pin-error" class="small pin-error" role="alert"></p>
+    </form>
+    <p class="small muted">Or scan the QR code on your PC.</p>
+  </section>
+
+  <dialog id="confirm-dialog" class="dialog">
+    <form method="dialog">
+      <h2 id="confirm-title" class="heading"></h2>
+      <p id="confirm-text"></p>
+      <div class="dialog-actions">
+        <button class="btn btn-secondary" value="cancel">Cancel</button>
+        <button id="confirm-ok" class="btn btn-danger" value="ok"></button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="transfer-dialog" class="dialog">
+    <h2 class="heading">Incoming files</h2>
+    <p id="transfer-from" class="transfer-from"></p>
+    <ul id="transfer-files" class="transfer-files"></ul>
+    <p id="transfer-total" class="small muted"></p>
+    <div class="dialog-actions">
+      <button id="transfer-reject" class="btn btn-secondary" type="button">Reject</button>
+      <button id="transfer-accept" class="btn btn-primary" type="button">Accept</button>
+    </div>
+  </dialog>
+
+  <dialog id="devices-dialog" class="dialog">
+    <form method="dialog">
+      <h2 class="heading">Connected devices</h2>
+      <ul id="devices-list" class="devices-list"></ul>
+      <p id="devices-empty" class="muted">No other devices are connected.</p>
+      <div class="dialog-actions">
+        <button class="btn btn-secondary" value="close">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="preview-dialog" class="dialog preview">
+    <div class="preview-head">
+      <span id="preview-name" class="preview-name"></span>
+      <a id="preview-download" class="icon-btn" href="/" download aria-label="Download">
+        <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#download"></use></svg>
+      </a>
+      <button id="preview-close" class="icon-btn" type="button" aria-label="Close">
+        <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#x"></use></svg>
+      </button>
+    </div>
+    <div id="preview-body" class="preview-body"></div>
+    <div class="preview-nav">
+      <button id="preview-prev" class="icon-btn" type="button" aria-label="Previous">
+        <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#chevron-left"></use></svg>
+      </button>
+      <span id="preview-count" class="small muted"></span>
+      <button id="preview-next" class="icon-btn" type="button" aria-label="Next">
+        <svg class="icon" aria-hidden="true"><use href="/static/icons.svg#chevron-right"></use></svg>
+      </button>
+    </div>
+  </dialog>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+</body>
+</html>
