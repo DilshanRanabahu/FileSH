@@ -1,6 +1,24 @@
-# FileSh
+<h1 align="center">FileSh</h1>
 
-Share files, folders, and text between your Windows PC and your phone over your home Wi‑Fi. No app on the phone, no internet, no cloud: the phone just opens a page in its browser.
+<p align="center">
+  Share files, folders, and text between your Windows PC and your phone over your home Wi‑Fi.<br>
+  No app on the phone, no internet, no cloud: the phone just opens a page in its browser.
+</p>
+
+<p align="center">
+  <img alt="Python 3.12" src="https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white">
+  <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-no%20framework-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+  <img alt="Windows" src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6?style=for-the-badge&logo=windows&logoColor=white">
+</p>
+
+<p align="center">
+  <img alt="Local network only" src="https://img.shields.io/badge/network-local%20only-2563EB?style=flat-square">
+  <img alt="No phone app needed" src="https://img.shields.io/badge/phone%20app-not%20needed-16A34A?style=flat-square">
+  <img alt="Last commit" src="https://img.shields.io/github/last-commit/DilshanRanabahu/FileSH?style=flat-square">
+  <img alt="Code size" src="https://img.shields.io/github/languages/code-size/DilshanRanabahu/FileSH?style=flat-square">
+  <img alt="Top language" src="https://img.shields.io/github/languages/top/DilshanRanabahu/FileSH?style=flat-square">
+</p>
 
 ## Start FileSh
 
